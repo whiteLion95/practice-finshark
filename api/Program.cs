@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer()
     .AddDbContext<ApplicationDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     })
+    .AddAutoMapper(typeof(Program))
     .AddControllers();
 
 var app = builder.Build();
