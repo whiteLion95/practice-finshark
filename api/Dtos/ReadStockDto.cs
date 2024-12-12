@@ -1,6 +1,6 @@
 namespace api.Dtos;
 
-public class StockDto
+public class ReadStockDto
 {
     public int Id { get; set; }
     public string Symbol { get; set; } = string.Empty;

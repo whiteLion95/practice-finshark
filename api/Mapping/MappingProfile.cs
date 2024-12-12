@@ -12,7 +12,8 @@ namespace api.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Stock, StockDto>();
+            CreateMap<Stock, ReadStockDto>();
+            CreateMap<CreateStockDto, Stock>();
         }
     }
 }

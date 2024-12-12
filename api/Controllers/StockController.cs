@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos;
+using api.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,17 +24,17 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult ReadAll()
         {
             var stocks = _context.Stocks.ToList()
-                .Select(_mapper.Map<StockDto>);
+                .Select(_mapper.Map<ReadStockDto>);
                 
             return Ok(stocks);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Read(int id)
         {
             var stock = _context.Stocks.Find(id);
 
@@ -41,7 +42,21 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<StockDto>(stock));
+            return Ok(_mapper.Map<ReadStockDto>(stock));
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateStockDto stockDto)
+        {
+            var stock = _mapper.Map<Stock>(stockDto);
+            _context.Stocks.Add(stock);
+            _context.SaveChanges();
+
+            return CreatedAtAction(
+                nameof(Read), 
+                new { id = stock.Id }, 
+                _mapper.Map<ReadStockDto>(stock)
+            );
         }
     }
 }
